@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
+import { ToastProvider } from "@/components/ToastProvider";
+import { ModalProvider } from "@/components/ModalProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +30,37 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <div className="drawer">
+          <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            <nav className="navbar w-full bg-base-300">
+              <label htmlFor="sidebar-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 18v-2h18v2zm0-5v-2h18v2zm0-5V6h18v2z" /></svg>
+              </label>
+            </nav>
+            <div className="p-4 min-w-screen min-h-screen">
+              <ModalProvider/>
+              <ToastProvider/>
+              {children}
+            </div>
+          </div>
+
+          <div className="drawer-side">
+            <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
+            <ul className="menu bg-base-300 min-h-full w-80 p-4">
+              <li>
+                <Link href="/">
+                  Stock Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link href="/purchase-request">
+                  Purchase requests
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
       </body>
     </html>
   );
